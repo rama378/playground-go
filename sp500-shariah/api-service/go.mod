@@ -3,3 +3,10 @@ module github.com/rama378/playground-go/sp500-shariah/api-service
 go 1.25.2
 
 replace github.com/rama378/playground-go/sp500-shariah/shared => ../shared
+
+require github.com/rama378/playground-go/sp500-shariah/shared v0.0.0-00010101000000-000000000000
+
+require (
+	github.com/stretchr/testify v1.11.1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)
