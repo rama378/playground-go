@@ -9,5 +9,8 @@ import (
 
 func main() {
 	cfg := config.Load("configs/config.yaml")
-	logger.Info(fmt.Sprintf("%s started in %s mode", cfg.AppName, cfg.Env))
+
+	logger.Info("%s started in %s mode", cfg.AppName, cfg.Env)
+	logger.Warm("WVMA scheduler not yet initialized")
+	logger.Error("Temporary test error: %s", fmt.Errorf("no data yet"))
 }
