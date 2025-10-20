@@ -1,16 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	"github.com/rama378/playground-go/sp500-shariah/shared/config"
-	"github.com/rama378/playground-go/sp500-shariah/shared/logger"
+	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/db"
+	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/postgres"
 )
 
 func main() {
-	cfg := config.Load("configs/config.yaml")
+	cfg := db.NewPostgresConfig()
+	conn, err := db.Connect(cfg)
+	if err != nil {
+		log.Fatalf("❌ failed to connect to db: %v", err)
+	}
+	defer conn.Close()
 
-	logger.Info("%s started in %s mode", cfg.AppName, cfg.Env)
-	logger.Warm("WVMA scheduler not yet initialized")
-	logger.Error("Temporary test error: %s", fmt.Errorf("no data yet"))
+	stockRepo := postgres.NewStockRepository(conn)
+	log.Println("✅ StockRepository initialized:", stockRepo != nil)
 }
