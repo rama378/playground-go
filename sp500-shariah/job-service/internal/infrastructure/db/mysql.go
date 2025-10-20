@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Config struct {
@@ -15,27 +15,25 @@ type Config struct {
 	User     string
 	Password string
 	DBName   string
-	SSLMode  string
 }
 
-func NewPostgresConfig() *Config {
+func NewMySQLConfig() *Config {
 	return &Config{
 		Host:     getEnv("DB_HOST", "localhost"),
 		Port:     getEnv("DB_PORT", "5432"),
 		User:     getEnv("DB_USER", "admin"),
 		Password: getEnv("DB_PASSWORD", "admin123"),
 		DBName:   getEnv("DB_NAME", "sp500_shariah"),
-		SSLMode:  getEnv("DB_SSLMODE", "disable"),
 	}
 }
 
 func Connect(cfg *Config) (*sql.DB, error) {
 	dsn := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName, cfg.SSLMode,
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
+		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DBName,
 	)
 
-	db, err := sql.Open("postgres", dsn)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open db: %w", err)
 	}
@@ -44,7 +42,7 @@ func Connect(cfg *Config) (*sql.DB, error) {
 		return nil, fmt.Errorf("failed to ping db: %w", err)
 	}
 
-	log.Println("✅ Connected to PostgreSQL")
+	log.Println("✅ Connected to MySQL")
 	return db, nil
 }
 

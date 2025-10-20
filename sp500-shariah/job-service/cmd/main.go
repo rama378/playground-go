@@ -4,11 +4,11 @@ import (
 	"log"
 
 	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/db"
-	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/postgres"
+	postgres "github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/mysql"
 )
 
 func main() {
-	cfg := db.NewPostgresConfig()
+	cfg := db.NewMySQLConfig()
 	conn, err := db.Connect(cfg)
 	if err != nil {
 		log.Fatalf("❌ failed to connect to db: %v", err)
