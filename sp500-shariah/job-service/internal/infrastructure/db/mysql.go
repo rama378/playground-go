@@ -20,7 +20,7 @@ type Config struct {
 func NewMySQLConfig() *Config {
 	return &Config{
 		Host:     getEnv("DB_HOST", "localhost"),
-		Port:     getEnv("DB_PORT", "5432"),
+		Port:     getEnv("DB_PORT", "3306"),
 		User:     getEnv("DB_USER", "admin"),
 		Password: getEnv("DB_PASSWORD", "admin123"),
 		DBName:   getEnv("DB_NAME", "sp500_shariah"),

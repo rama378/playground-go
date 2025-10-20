@@ -15,6 +15,10 @@ func main() {
 	}
 	defer conn.Close()
 
+	if err := db.AutoMigrate(conn); err != nil {
+		log.Fatalf("❌ migration failed: %v", err)
+	}
+
 	stockRepo := postgres.NewStockRepository(conn)
 	log.Println("✅ StockRepository initialized:", stockRepo != nil)
 }
