@@ -4,7 +4,8 @@ import (
 	"log"
 
 	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/db"
-	postgres "github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/mysql"
+	mysql "github.com/rama378/playground-go/sp500-shariah/job-service/internal/infrastructure/mysql"
+	"github.com/rama378/playground-go/sp500-shariah/job-service/internal/interfaces/job"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 		log.Fatalf("❌ migration failed: %v", err)
 	}
 
-	stockRepo := postgres.NewStockRepository(conn)
+	stockRepo := mysql.NewStockRepository(conn)
+	job.RunYahooJob(stockRepo)
 	log.Println("✅ StockRepository initialized:", stockRepo != nil)
 }
